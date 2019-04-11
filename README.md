@@ -1,6 +1,6 @@
 # SashiDo Parse Cloud Code compatibility layer
 
-Allows using old style Cloud Code with version >=3.0.0 of Parse Server
+Allows using old style Cloud Code with version >=3.0.0 of Parse Server. For more details visit: [Parse Community 3.0.0](https://github.com/parse-community/parse-server/blob/master/3.0.0.md)
 
 ## Installation
 
