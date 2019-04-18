@@ -33,8 +33,7 @@ Here are some working and the non-working scenarios in code:
 
 Working:
 
-```
-
+```js
 //we are calling res.success at some point
 Parse.Cloud.define('working_1', (req, res) => {
     Promise.resolve().then(() => res.success(5));
@@ -46,16 +45,18 @@ Parse.Cloud.define('working_2', async (req, res) => {
 });
 
 //same as above without async
-Parse.Cloud.define('working_3', (req, res) {
+Parse.Cloud.define('working_3', (req, res) => {
     return Promise.resolve(5);
-})
+});
 ```
 
 Non-working:
 
-```
+```js
 //the function is synchronous, neither a promise is returned, nor res.success is called
-Parse.Cloud.define('non_working', (req) => {
+Parse.Cloud.define('non_working', req => {
     return 5;
 });
 ```
+
+Our suggestion is to make sure all functions are `async` or call `response.success` until the migration to Parse 3.x is complete. After that the compatiblity layer can be disabled (not yet available) and this difference will not be present.
