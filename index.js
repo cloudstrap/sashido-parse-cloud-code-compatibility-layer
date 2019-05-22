@@ -1,18 +1,10 @@
-const cloudCodeTriggerMethods = [
-    'beforeSave',
-    'afterSave',
-    'beforeDelete',
-    'afterDelete',
-    'beforeFind',
-    'afterFind',
-    'define'
-];
+const { cloudCodeTriggerMethods } = require('./constants');
 
 cloudCodeTriggerMethods.forEach(m => {
     const orig = Parse.Cloud[m];
     Parse.Cloud[m] = (name, callback) => {
         const fn = req => {
-            return new Promise((resolve, reject) => {
+            return new Promise(async (resolve, reject) => {
                 let resolveCalled = false;
                 const resolveChecked = (...args) => {
                     if (!resolveCalled) {
@@ -35,9 +27,24 @@ cloudCodeTriggerMethods.forEach(m => {
                 };
 
                 try {
-                    const result = callback(req, response);
-                    if (result && typeof result.then === 'function') {
-                        result.then(resolveChecked).catch(rejectChecked);
+                    if (!callback) {
+                        return resolveChecked();
+                    }
+
+                    if (callback.length <= 1) {
+                        //the new style functions - they don't accept a second argument
+                        return resolveChecked(await callback(req));
+                    } else {
+                        const result = callback(req, response);
+                        if (result && typeof result.then === 'function') {
+                            //the function is most likely async
+                            return resolveChecked(await result);
+                        } else if (result) {
+                            //the function is most likely sync and returns a result
+                            return resolveChecked(result);
+                        }
+                        //else the function most likely will call
+                        //res.success/error at some point
                     }
                 } catch (e) {
                     rejectChecked(e);

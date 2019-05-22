@@ -1,0 +1,6 @@
+--recursive
+--reporter spec
+--exit
+--slow=100
+--timeout=1000
+--require ./test/init.js
