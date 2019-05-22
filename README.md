@@ -5,7 +5,7 @@ Allows using old style Cloud Code with version >=3.0.0 of Parse Server. For more
 ## Installation
 
 ```bash
-$ npm install https://github.com/cloudstrap/sashido-parse-cloud-code-compatibility-layer#1.1.0
+$ npm install https://github.com/cloudstrap/sashido-parse-cloud-code-compatibility-layer#1.1.1
 ```
 
 ## Usage
