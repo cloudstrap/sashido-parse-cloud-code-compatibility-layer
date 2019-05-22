@@ -23,22 +23,21 @@ There's only one corner case not handled by the compatibility layer: When a Clou
 Do:
 
 ```javascript
-Parse.Cloud.define('test_fn', (req) {
+Parse.Cloud.define('test_fn', req => {
     //do something
     //return nothing
-})
+});
 ```
 
 Don't:
 
 ```javascript
-Parse.Cloud.define('test_fn', (req, res) {
+Parse.Cloud.define('test_fn', (req, res) => {
     //do something
     //return nothing
-
     //this function will hang since the compatibility layer wouldn't know if
     //you want to call res.success
-})
+});
 ```
 
 Everything else should be supported. Refer to the tests for more details.
